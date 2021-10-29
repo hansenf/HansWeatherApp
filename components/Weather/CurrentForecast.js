@@ -1,10 +1,14 @@
 import React from "react";
+import { Text } from "react-native";
 import styled from "styled-components/native";
+import moment from "moment";
 
-const CurrentForecast = ({ currentWeather }) => {
+const CurrentForecast = ({ currentWeather, name }) => {
   return (
     <CurrentView>
-      <Timezone>{currentWeather.timezone}</Timezone>
+      <Timezone>{currentWeather.timezone}</Timezone>  
+      <Text> {name} </Text>
+      <DateContainer>{moment().format("dddd, MMM DD, YYYY")}</DateContainer> 
       <MainInfoContainer>
         <CurrentTempView>
           {currentWeather.current && (
@@ -28,48 +32,52 @@ const CurrentForecast = ({ currentWeather }) => {
       <SecondaryInfoContainer>
         <Row>
           <DetailsBox>
-            <Label>Feels</Label>
-            <Details>
-              {currentWeather.current &&
-                Math.round(currentWeather.current.feels_like)}
-              °C
-            </Details>
-          </DetailsBox>
-          <DetailsBox>
-            <Label>Low</Label>
-            <Details>
-              {currentWeather.daily &&
-                Math.round(currentWeather.daily[0].temp.min)}
-              °C
-            </Details>
-          </DetailsBox>
-          <DetailsBox>
-            <Label>High</Label>
-            <Details>
-              {currentWeather.daily &&
-                Math.round(currentWeather.daily[0].temp.max)}
-              °C
-            </Details>
-          </DetailsBox>
-        </Row>
-        <Row>
-          <DetailsBox>
-            <Label>Wind</Label>
-            <Details>
-              {currentWeather.current && currentWeather.current.wind_speed} m/s
-            </Details>
-          </DetailsBox>
-          <DetailsBox>
-            <Label>Humidity</Label>
+            {<WeatherIcon
+              source={{
+                uri: `http://openweathermap.org/img/wn/10d@2x.png`,
+              }}
+              resizeMode={"contain"}
+            />}
             <Details>
               {currentWeather.current && currentWeather.current.humidity}%
             </Details>
+            <Label>Humidity</Label>
           </DetailsBox>
           <DetailsBox>
-            <Label>Rain</Label>
+            {<WeatherIcon
+              source={{
+                uri: `http://openweathermap.org/img/wn/10d@03d.png`,
+              }}
+              resizeMode={"contain"}
+            />}
             <Details>
               {currentWeather.daily > 0 ? currentWeather.daily[0].rain : "0"} MM
             </Details>
+            <Label>Pressure</Label>
+          </DetailsBox>
+          <DetailsBox>
+            {<WeatherIcon
+              source={{
+                uri: `http://openweathermap.org/img/wn/03d@2x.png`,
+              }}
+              resizeMode={"contain"}
+            />}
+            <Details>
+              {currentWeather.daily > 0 ? currentWeather.daily[0].rain : "0"} MM
+            </Details>
+            <Label>Cloudiness</Label>
+          </DetailsBox>
+          <DetailsBox>
+          {<WeatherIcon
+              source={{
+                uri: `http://openweathermap.org/img/wn/10d@2x.png`,
+              }}
+              resizeMode={"contain"}
+            />}
+            <Details>
+              {currentWeather.current && currentWeather.current.wind_speed} m/s
+            </Details>
+            <Label>Wind</Label>
           </DetailsBox>
         </Row>
       </SecondaryInfoContainer>
@@ -116,14 +124,15 @@ const SecondaryInfoContainer = styled.View`
 const WeatherIcon = styled.Image`
   width: 50px;
   height: 50px;
+  
 `;
 
 const Timezone = styled.Text`
   color: white;
   display: flex;
   justify-content: center;
-  margin-top: 10px;
-  font-size: 15px;
+  margin-top: 5px;
+  font-size: 24px;
 `;
 
 const CurrentDegrees = styled.Text`
@@ -149,12 +158,21 @@ const DetailsBox = styled.View`
 
 const Label = styled.Text`
   font-size: 18px;
+  text-align: center;
 `;
 
 const Details = styled.Text`
   color: black;
   font-size: 15px;
   text-transform: capitalize;
+  text-align: center;
+`;
+
+const DateContainer = styled.Text`
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
 `;
 
 export default CurrentForecast;

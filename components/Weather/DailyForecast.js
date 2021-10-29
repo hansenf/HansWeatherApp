@@ -7,8 +7,9 @@ const DailyForecast = ({ day, index }) => {
   return (
     <DayContainer>
       <DateContainer>
-        <WeekDay>{moment(day.dt * 1000).format("ddd \n M/DD")}
-        
+        <WeekDay>{moment(day.dt * 1000).format("ddd")}
+        </WeekDay>
+        <WeekDay>{moment(day.dt * 1000).format("M/DD")}
         </WeekDay>
       </DateContainer>
       <IconTempView>
